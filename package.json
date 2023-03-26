@@ -1,6 +1,6 @@
 {
     "name": "actions-serverless",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "GitHub Action to deploy with Serverless",
     "repository": {
         "type": "git",
