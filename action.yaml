@@ -1,0 +1,43 @@
+name: Serverless Deploy
+description: "Run a deploy with Serverless"
+
+inputs:
+  environment:
+    description: "Environment"
+    required: true
+  account_id:
+    description: "AWS account ID"
+    required: true
+  region:
+    description: "AWS Region"
+    default: "eu-west-2"
+  working-directory:
+    description: "Working Directory"
+    required: false
+    default: "."
+
+runs:
+  using: composite
+  steps:
+    - name: Install Packages
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+      run: npm ci
+
+    - name: Authorization
+      uses: clockwork-marketing-uk/actions-aws-auth@2.0.0
+      with:
+        region: ${{ inputs.region }}
+        account_id: ${{ inputs.account_id }}
+        role: apply
+
+    - name: Get Repository Name
+      shell: bash
+      run: echo "REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+    - name: Deploy Serverless
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+      run: npm run deploy
+      env:
+        ENVIRONMENT: ${{ inputs.environment }}
