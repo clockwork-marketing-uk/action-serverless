@@ -25,7 +25,7 @@ runs:
       run: npm ci
 
     - name: Authorization
-      uses: clockwork-marketing-uk/actions-aws-auth@2.0.0
+      uses: clockwork-marketing-uk/actions-aws-auth@2.0.1
       with:
         region: ${{ inputs.region }}
         account_id: ${{ inputs.account_id }}
